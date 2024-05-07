@@ -7,13 +7,16 @@ import { useAppContext } from '@/components/AppContext';
 const ChatList = () => {
     const case_id = Cookies.get('patientId');
     const [chats, setChats] = useState([]);
-    useEffect(() => {
-        fetchData();
-    }, []);
     const {
         state: { selectedChat },
         dispatch
     } = useAppContext()
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
     async function deleteChat(id) {
        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${id}`, {

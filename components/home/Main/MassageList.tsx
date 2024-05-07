@@ -55,24 +55,20 @@ export default function MessageList() {
             <ul>
                 {messageList.map((message) => {
                     // 根据消息的角色（用户或助手）设置不同的背景和图标
-                    const isUser = message.role === "user"
                     return (
-                        <li
-                            key={message.id}
-                            className={`${
-                                isUser
-                                    ? "bg-white dark:bg-gray-800"
-                                    : "bg-gray-50 dark:bg-gray-700"
-                            }`}
-                        >
+                        <li key={message.id}>
                             <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-6 text-lg'>
                                 <div className='text-3xl leading-[1]'>
-                                {isUser ? <FontAwesomeIcon icon={faUserCircle} /> : <SiOpenai />}
+                                    <FontAwesomeIcon icon={faUserCircle}/>
+                                    <SiOpenai />
                                 </div>
                                 <div className='flex-1'>
-                                    <Markdown>{`${message.answer}${
-                                        message.id === streamingId ? "▍" : ""
-                                    }`}</Markdown>
+                                    <div className='bg-white'>
+                                        <Markdown>{`${message.query}`}</Markdown>
+                                    </div>
+                                    <div className="bg-gray-50">
+                                        <Markdown>{`${message.answer}`}</Markdown>
+                                    </div>
                                 </div>
                             </div>
                         </li>
