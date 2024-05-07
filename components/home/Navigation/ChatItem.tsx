@@ -11,7 +11,8 @@ const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  /
     const case_id = Cookies.get('patientId');
 
     async function updateChat(newName) {
-        console.log(id);
+        console.log(newName);
+        console.log(conversation_id);
         const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${conversation_id}/name`, {
             method: "POST",
             headers: {
@@ -21,8 +22,7 @@ const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  /
             body: `{"name": "${newName}","user":"${case_id}"}`
         });
         if (response.ok) {
-            const data = await response.json();
-            console.log(data);
+            console.log("ok")
         }
     }
 
@@ -49,7 +49,6 @@ const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  /
                     <>
                         <button
                             onClick={(e) => {
-                                console.log(deleting);
                                 if (deleting) {
                                     handdelete(id);
                                 } else {
