@@ -1,76 +1,74 @@
-import React, { useState } from 'react'
-import { AiOutlineEdit } from 'react-icons/ai'
-import { PiTrashBold, PiChatBold } from 'react-icons/pi'
-import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md'
+import React, { useState } from 'react';
+import { AiOutlineEdit } from 'react-icons/ai';
+import { PiTrashBold, PiChatBold } from 'react-icons/pi';
+import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md';
 import Cookies from 'js-cookie';
 
-const ChatItem = (name, index) => {
-    
-    const [editing, setEditing] = useState(false)
-    const [deleting, setDeleting] = useState(false)
-    const [title, setTitle] = useState(false)
-    const [response, setResponse] = useState('');
+const ChatItem = ({ id, name, conversation_id }) => {  // Include id in props
+    const [editing, setEditing] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+    const [title, setTitle] = useState(name);  // Initialize with name
     const case_id = Cookies.get('patientId');
 
-    async function updateChat() {
-        // Implement update chat functionality
-        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${name}`, {
-        method: "POST",
-        headers: {
-          Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
-        },body: JSON.stringify({
-            name: "abc-123", 
-            user: `${case_id}`
-        })
-      });
+    async function updateChat(newName) {
+        console.log(id);
+        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${conversation_id}/name`, {
+            method: "POST",
+            headers: {
+                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
+                'Content-Type': 'application/json'
+            },
+            body: `{"name": "${newName}","user":"${case_id}"}`
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        }
     }
 
-    // Function to delete chat
     async function deleteChat() {
-        // Implement delete chat functionalityconst case_id = Cookies.get('patientId');
-      const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${name}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
-          'Content-Type': 'application/json'
-        }, body: JSON.stringify({
-            user: `${case_id}`
-        })
-      });
-      console.log(response).json();
+        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
+                'Content-Type': 'application/json'
+            },
+            body: `{"user":"${case_id}"}`
+        });
+        if (response.ok) {
+            const data = await response.json();
+            console.log(data);
+        }
     }
+
     return (
         <li className='relative group flex items-center p-3 space-x-3 cursor-pointer rounded-md hover:bg-gray-800 bg-gray-800 pr-[3.5em]'>
             <div>{deleting ? <PiTrashBold /> : <PiChatBold />}</div>
             {editing ? (
                 <input
+                    value={title}
                     autoFocus={true}
                     className='flex-1 min-w-0 bg-transparent outline-none'
-                    onChange={(e) => {
-                        // Handle input change if needed
-                    }}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
             ) : (
-                <div className='relative flex-1 whitespace-nowrap overflow-hidden'>
-                    <span
-                        className={`group-hover:from-gray-800 absolute right-0 inset-y-0 w-8 bg-gradient-to-l`}
-                    ></span>
+                <div className='relative flex-1 whitespace-nowrap overflow-hidden text-white'>
+                    <span>{title}</span>  {/* Display the title */}
                 </div>
             )}
-
             <div className='absolute right-1 flex'>
                 {editing || deleting ? (
                     <>
                         <button
                             onClick={(e) => {
                                 if (deleting) {
-                                    deleteChat()
+                                    deleteChat();
                                 } else {
-                                    updateChat()
+                                    updateChat(title);
                                 }
-                                setDeleting(false)
-                                setEditing(false)
-                                e.stopPropagation()
+                                setDeleting(false);
+                                setEditing(false);
+                                e.stopPropagation();
                             }}
                             className='p-1 hover:text-white'
                         >
@@ -78,9 +76,9 @@ const ChatItem = (name, index) => {
                         </button>
                         <button
                             onClick={(e) => {
-                                setDeleting(false)
-                                setEditing(false)
-                                e.stopPropagation()
+                                setDeleting(false);
+                                setEditing(false);
+                                e.stopPropagation();
                             }}
                             className='p-1 hover:text-white'
                         >
@@ -91,8 +89,8 @@ const ChatItem = (name, index) => {
                     <>
                         <button
                             onClick={(e) => {
-                                setEditing(true)
-                                e.stopPropagation()
+                                setEditing(true);
+                                e.stopPropagation();
                             }}
                             className='p-1 hover:text-white'
                         >
@@ -100,8 +98,8 @@ const ChatItem = (name, index) => {
                         </button>
                         <button
                             onClick={(e) => {
-                                setDeleting(true)
-                                e.stopPropagation()
+                                setDeleting(true);
+                                e.stopPropagation();
                             }}
                             className='p-1 hover:text-white'
                         >
@@ -114,4 +112,4 @@ const ChatItem = (name, index) => {
     )
 }
 
-export default ChatItem
+export default ChatItem;
