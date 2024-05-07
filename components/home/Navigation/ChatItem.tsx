@@ -4,7 +4,7 @@ import { PiTrashBold, PiChatBold } from 'react-icons/pi';
 import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md';
 import Cookies from 'js-cookie';
 
-const ChatItem = ({ id, name, conversation_id }) => {  // Include id in props
+const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  // Include id in props
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(name);  // Initialize with name
@@ -26,23 +26,11 @@ const ChatItem = ({ id, name, conversation_id }) => {  // Include id in props
         }
     }
 
-    async function deleteChat() {
-        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
-                'Content-Type': 'application/json'
-            },
-            body: `{"user":"${case_id}"}`
-        });
-        if (response.ok) {
-            const data = await response.json();
-            console.log(data);
-        }
-    }
-
     return (
-        <li className='relative group flex items-center p-3 space-x-3 cursor-pointer rounded-md hover:bg-gray-800 bg-gray-800 pr-[3.5em]'>
+        <li className='relative group flex items-center p-3 space-x-3 cursor-pointer rounded-md hover:bg-gray-800 bg-gray-800 pr-[3.5em]' 
+        onClick={() => {
+            onSelected()
+        }}>
             <div>{deleting ? <PiTrashBold /> : <PiChatBold />}</div>
             {editing ? (
                 <input
@@ -61,8 +49,9 @@ const ChatItem = ({ id, name, conversation_id }) => {  // Include id in props
                     <>
                         <button
                             onClick={(e) => {
+                                console.log(deleting);
                                 if (deleting) {
-                                    deleteChat();
+                                    handdelete(id);
                                 } else {
                                     updateChat(title);
                                 }

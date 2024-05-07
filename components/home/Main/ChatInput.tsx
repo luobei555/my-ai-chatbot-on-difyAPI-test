@@ -1,5 +1,7 @@
 'use client'
+import { useAppContext } from '@/components/AppContext'
 import Button from '@/components/common/Button'
+import { ActionType } from '@/reducers/AppReducer'
 import React, { useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { MdRefresh } from 'react-icons/md'
@@ -9,25 +11,41 @@ import TextareaAutoSize from "react-textarea-autosize"
 const ChatInput = () => {
 
   const [response, setResponse] = useState('');
-
+  const [messageText, setMessageText] = useState("")
+  const {
+    state: { messageList, streamingId, selectedChat },
+    dispatch
+} = useAppContext()
   const createSession = async () => {
+    console.log('--------------')
     try {
-      const response = await fetch("http://xxx/v1/chat-messages", {
+      const response = await fetch("http://c072951.r15.vip.cpolar.cn/v1/chat-messages", {
         method: 'POST',
         headers: {
+          Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
           'Content-Type': 'application/json',
-          Authorization: 'Bearer app-xxxx'
         },
         body: JSON.stringify({
           inputs: {},
-          query: "What are the specs of the iPhone 13 Pro Max?",
+          query: `${messageText}`,
           response_mode: "blocking",
-          user: "abc-123",
+          user: "20240501",
+          conversation_id: selectedChat?.conversation_id ?? ''
         }),
       });
       const data = await response.json();
       setResponse(JSON.stringify(data, null, 2)); // 格式化 JSON 输出
       console.log(data.answer)
+      console.log(data.id)
+      console.log(data.conversation_id)
+      dispatch({
+        type: ActionType.UPDATE,
+        field: "selectedChat",
+        value: {
+          id: data.id,
+          conversation_id: data.conversation_id,
+      }
+    });
     } catch (error) {
       setResponse('Error: ' + error.message);
     }
@@ -43,11 +61,16 @@ const ChatInput = () => {
         <TextareaAutoSize
           className='outline-none flex-1 max-h-64 mb-1.5 bg-transparent text-black dark:text-white resize-none border-0'
           placeholder='我不是ChatGPT, 我是...'
-          rows={1}
+          rows={1} 
+          value={messageText}
+          onChange={(e) => {
+              setMessageText(e.target.value)
+          }}
         />
         <Button
           className='mx-3 !rounded-lg'
           icon={FiSend}
+          onClick={createSession}
         />
       </div>
       <div style={{ height: '50px' }} />

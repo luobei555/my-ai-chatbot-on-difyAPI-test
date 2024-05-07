@@ -1,19 +1,39 @@
-import Button from '@/components/common/Button'
-import React from 'react'
-import { HiPlus } from 'react-icons/hi'
-import { LuPanelLeft } from 'react-icons/lu'
+"use client"
+import { useAppContext } from "@/components/AppContext"
+import Button from "@/components/common/Button"
+import { ActionType } from "@/reducers/AppReducer"
+import { HiPlus } from "react-icons/hi"
+import { LuPanelLeft } from "react-icons/lu"
 
-const Menubar = () => {
-  return (
-    <div className='flex space-x-3 bg-pink'>
-        <Button icon={HiPlus} variant='outline' className='flex-1'>
-            新建对话
-        </Button>
-        <Button icon={LuPanelLeft} variant='outline'>
-
-        </Button>
-    </div>
-  )
+export default function Menubar() {
+    const { dispatch } = useAppContext()
+    return (
+        <div className='flex space-x-3'>
+            <Button
+                icon={HiPlus}
+                variant='outline'
+                className='flex-1'
+                onClick={() => {
+                    dispatch({
+                        type: ActionType.UPDATE,
+                        field: "selectedChat",
+                        value: null
+                    })
+                }}
+            >
+                新建对话
+            </Button>
+            <Button
+                icon={LuPanelLeft}
+                variant='outline'
+                onClick={() => {
+                    dispatch({
+                        type: ActionType.UPDATE,
+                        field: "displayNavigation",
+                        value: false
+                    })
+                }}
+            />
+        </div>
+    )
 }
-
-export default Menubar
