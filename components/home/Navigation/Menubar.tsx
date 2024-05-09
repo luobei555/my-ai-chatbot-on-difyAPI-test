@@ -23,17 +23,6 @@ export default function Menubar() {
             >
                 新建对话
             </Button>
-            <Button
-                icon={LuPanelLeft}
-                variant='outline'
-                onClick={() => {
-                    dispatch({
-                        type: ActionType.UPDATE,
-                        field: "displayNavigation",
-                        value: false
-                    })
-                }}
-            />
         </div>
     )
 }

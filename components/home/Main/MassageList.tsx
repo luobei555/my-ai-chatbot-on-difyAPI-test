@@ -6,17 +6,19 @@ import { SiOpenai } from "react-icons/si"
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
-
+import Cookies from 'js-cookie';
 
 export default function MessageList() {
     //  使用 useAppContext 钩子从全局状态中获取 messageList, streamingId, selectedChat 和 dispatch函数
     const {
-        state: { messageList, streamingId, selectedChat },
+        state: { messageList, selectedChat },
         dispatch
     } = useAppContext()
 
+    const case_id = Cookies.get('patientId');
+
     async function getData(chatId: string) {
-        const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/messages?user=20240501&conversation_id=${chatId}`, {
+        const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
             method: "GET",
             headers: {
                 Authorization:'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'

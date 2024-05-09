@@ -6,7 +6,6 @@ export interface Chat {
 
 export interface Message {
     id: string
-    role: "user" | "assistant"
     query: string
     answer: string
 }

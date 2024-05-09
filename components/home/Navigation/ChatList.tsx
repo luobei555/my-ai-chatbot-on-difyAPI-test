@@ -19,7 +19,7 @@ const ChatList = () => {
 
 
     async function deleteChat(id) {
-       const response = await fetch(`http://c072951.r15.vip.cpolar.cn/v1/conversations/${id}`, {
+       const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/conversations/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
@@ -34,7 +34,7 @@ const ChatList = () => {
     }
     
     async function fetchData() {
-        const response = await fetch(`http://c072951.r15.vip.cpolar.cn//v1/conversations?user=${case_id}&last_id=&limit=20`, {
+        const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
             method: "GET",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'

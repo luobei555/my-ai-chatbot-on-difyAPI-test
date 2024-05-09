@@ -1,11 +1,7 @@
 import { Chat, Message } from "@/types/chat"
 
 export type State = {
-    displayNavigation: boolean
-    themeMode: "dark" | "light"
-    currentModel: string
     messageList: Message[]
-    streamingId: string
     selectedChat?: Chat
 }
 
@@ -30,11 +26,7 @@ type UpdateAction = {
 export type Action = UpdateAction | MessageAction
 
 export const initState: State = {
-    displayNavigation: true,
-    themeMode: "light",
-    currentModel: "gpt-3.5-turbo",
     messageList: [],
-    streamingId: "",
     selectedChat: undefined
 }
 

@@ -1,7 +1,6 @@
 'use client'
 
 import React from 'react'
-import Menu from './Menu'
 import Welcome from './Welcome'
 import ChatInput from './ChatInput'
 import { useAppContext } from '@/components/AppContext';
@@ -14,7 +13,6 @@ const Main = () => {
   return (
     <div className=' flex-1 relative'>
       <main className=' overflow-y-auto w-full h-full bg-[#ECECEE] text-gray-900'>
-        <Menu />
         {!selectedChat && <Welcome />}
         <MessageList />
         <ChatInput />
