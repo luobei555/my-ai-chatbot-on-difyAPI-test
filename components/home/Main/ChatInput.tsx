@@ -2,7 +2,7 @@
 import { useAppContext } from '@/components/AppContext'
 import Button from '@/components/common/Button'
 import { ActionType } from '@/reducers/AppReducer'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { MdRefresh } from 'react-icons/md'
 import { PiLightningFill, PiStopBold } from 'react-icons/pi'
@@ -13,13 +13,13 @@ const ChatInput = () => {
   const [response, setResponse] = useState('');
   const [messageText, setMessageText] = useState("")
   const {
-    state: { messageList, streamingId, selectedChat },
+    state: { messageList, selectedChat },
     dispatch
 } = useAppContext()
   const createSession = async () => {
     console.log('--------------')
     try {
-      const response = await fetch("http://c072951.r15.vip.cpolar.cn/v1/chat-messages", {
+      const response = await fetch("http://db59210.r11.vip.cpolar.cn/v1/chat-messages", {
         method: 'POST',
         headers: {
           Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
@@ -46,11 +46,21 @@ const ChatInput = () => {
           conversation_id: data.conversation_id,
       }
     });
+    dispatch({
+      type: ActionType.UPDATE,
+      field: "messageList",
+      value: [...messageList, {
+        query: `${messageText}`,
+        answer: data.answer
+      }]
+    })
     } catch (error) {
       setResponse('Error: ' + error.message);
     }
   };
 
+
+  
   return (
     <div className='absolute bottom-0 inset-x-0 bg-gradient-to-b from-[rgba(255,255,255,0)] pt-10 dark:from-[rgba(53,55,64,0)] dark:to-[#353740] dark:to-[58.85%]'>
       <div className='w-full max-w-4xl mx-auto flex flex-col items-center px-4 space-y-4'>
