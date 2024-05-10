@@ -18,7 +18,7 @@ export default function MessageList() {
     const case_id = Cookies.get('patientId');
 
     async function getData(chatId: string) {
-        const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
+        const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
             method: "GET",
             headers: {
                 Authorization:'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
@@ -56,21 +56,16 @@ export default function MessageList() {
         <div className='w-full pt-10 pb-48 dark:text-gray-300'>
             <ul>
                 {messageList.map((message) => {
-                    // 根据消息的角色（用户或助手）设置不同的背景和图标
                     return (
-                        <li key={message.id}>
-                            <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-6 text-lg'>
-                                <div className='text-3xl leading-[1]'>
-                                    <FontAwesomeIcon icon={faUserCircle}/>
-                                    <SiOpenai />
+                        <li key={message.id} >
+                            <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-4 text-lg'>
+                                <div className='text-3xl leading-[1] space-y-4'>
+                                    {message.query ? <FontAwesomeIcon icon={faUserCircle} /> : <SiOpenai />}
+                                    {message.answer ? <SiOpenai /> : <FontAwesomeIcon icon={faUserCircle} />}
                                 </div>
-                                <div className='flex-1'>
-                                    <div className='bg-white'>
-                                        <Markdown>{`${message.query}`}</Markdown>
-                                    </div>
-                                    <div className="bg-gray-50">
-                                        <Markdown>{`${message.answer}`}</Markdown>
-                                    </div>
+                                <div className='flex-1 space-y-4'>
+                                    <Markdown>{`${message.query}`}</Markdown>
+                                    <Markdown>{`${message.answer}`}</Markdown>
                                 </div>
                             </div>
                         </li>

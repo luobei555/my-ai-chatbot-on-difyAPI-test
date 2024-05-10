@@ -8,7 +8,7 @@ const ChatList = () => {
     const case_id = Cookies.get('patientId');
     const [chats, setChats] = useState([]);
     const {
-        state: { selectedChat },
+        state: { selectedChat, messageList },
         dispatch
     } = useAppContext()
 
@@ -19,7 +19,7 @@ const ChatList = () => {
 
 
     async function deleteChat(id) {
-       const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/conversations/${id}`, {
+       const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/conversations/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
@@ -34,7 +34,7 @@ const ChatList = () => {
     }
     
     async function fetchData() {
-        const response = await fetch(`http://db59210.r11.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
+        const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
             method: "GET",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
@@ -48,7 +48,7 @@ const ChatList = () => {
     return (
         <div className='table-1 mb-[48px] mt-2 flex flex-col overflow-y-auto'>
             <ul>
-                {chats.map((chat, index) => (
+                {chats.map((chat) => (
                     <ChatItem handdelete={deleteChat} key={chat.id} name={chat.name} id={chat.id} conversation_id={chat.conversation_id} 
                     onSelected={() => {
                         return dispatch({

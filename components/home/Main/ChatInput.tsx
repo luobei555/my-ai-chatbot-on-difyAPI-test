@@ -15,11 +15,11 @@ const ChatInput = () => {
   const {
     state: { messageList, selectedChat },
     dispatch
-} = useAppContext()
+  } = useAppContext()
   const createSession = async () => {
     console.log('--------------')
     try {
-      const response = await fetch("http://db59210.r11.vip.cpolar.cn/v1/chat-messages", {
+      const response = await fetch("http://5a5f494e.r11.vip.cpolar.cn/v1/chat-messages", {
         method: 'POST',
         headers: {
           Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
