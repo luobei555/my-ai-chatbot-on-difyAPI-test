@@ -59,12 +59,18 @@ export default function MessageList() {
                     return (
                         <li key={message.id} >
                             <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-4 text-lg'>
+                                <div className='flex-1 space-y-4 text-right'>
+                                    <Markdown>{`${message.query}`}</Markdown>
+                                </div>
                                 <div className='text-3xl leading-[1] space-y-4'>
-                                    {message.query ? <FontAwesomeIcon icon={faUserCircle} /> : <SiOpenai />}
-                                    {message.answer ? <SiOpenai /> : <FontAwesomeIcon icon={faUserCircle} />}
+                                    <FontAwesomeIcon icon={faUserCircle} />
+                                </div>
+                            </div>
+                            <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-4 text-lg'>
+                                <div className='text-3xl leading-[1] space-y-4'>
+                                    <SiOpenai />
                                 </div>
                                 <div className='flex-1 space-y-4'>
-                                    <Markdown>{`${message.query}`}</Markdown>
                                     <Markdown>{`${message.answer}`}</Markdown>
                                 </div>
                             </div>
