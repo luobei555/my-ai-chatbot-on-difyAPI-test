@@ -13,7 +13,6 @@ const Info = () => {
     const fetchData = async () => {
         //const case_id = new URLSearchParams(window.location.search).get('case_id');
         const case_id = Cookies.get('patientId');
-        console.log(case_id)
 
         if (!case_id) {
             setError('缺少病历号参数');

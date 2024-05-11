@@ -49,7 +49,7 @@ const ChatList = () => {
         <div className='table-1 mb-[48px] mt-2 flex flex-col overflow-y-auto'>
             <ul>
                 {chats.map((chat) => (
-                    <ChatItem handdelete={deleteChat} key={chat.id} name={chat.name} id={chat.id} conversation_id={chat.conversation_id} 
+                    <ChatItem  key={chat.id} name={chat.name} handdelete={deleteChat}
                     onSelected={() => {
                         return dispatch({
                             type: ActionType.UPDATE,

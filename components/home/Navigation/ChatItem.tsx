@@ -3,16 +3,22 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { PiTrashBold, PiChatBold } from 'react-icons/pi';
 import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md';
 import Cookies from 'js-cookie';
+import { useAppContext } from '@/components/AppContext';
 
-const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  // Include id in props
+const ChatItem = ({ name, handdelete, onSelected }) => {  // Include id in props
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(name);  // Initialize with name
     const case_id = Cookies.get('patientId');
 
+    const {
+        state: { messageList, selectedChat },
+        dispatch
+    } = useAppContext()
+
     async function updateChat(newName) {
-        console.log(id);
-        const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/conversations/${conversation_id}/name`, {
+        console.log(selectedChat?.conversation_id)
+        const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/conversations/${selectedChat?.conversation_id}/name`, {
             method: "POST",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
@@ -48,7 +54,6 @@ const ChatItem = ({ id, name, conversation_id, handdelete, onSelected }) => {  /
                     <>
                         <button
                             onClick={(e) => {
-                                console.log(deleting);
                                 if (deleting) {
                                     handdelete(id);
                                 } else {

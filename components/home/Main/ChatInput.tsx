@@ -7,9 +7,10 @@ import { FiSend } from 'react-icons/fi'
 import { MdRefresh } from 'react-icons/md'
 import { PiLightningFill, PiStopBold } from 'react-icons/pi'
 import TextareaAutoSize from "react-textarea-autosize"
+import Cookies from 'js-cookie';
 
 const ChatInput = () => {
-
+  const case_id = Cookies.get('patientId');
   const [response, setResponse] = useState('');
   const [messageText, setMessageText] = useState("")
   const {
@@ -17,7 +18,6 @@ const ChatInput = () => {
     dispatch
   } = useAppContext()
   const createSession = async () => {
-    console.log('--------------')
     try {
       const response = await fetch("http://5a5f494e.r11.vip.cpolar.cn/v1/chat-messages", {
         method: 'POST',
@@ -29,15 +29,12 @@ const ChatInput = () => {
           inputs: {},
           query: `${messageText}`,
           response_mode: "blocking",
-          user: "20240501",
+          user: `${case_id}`,
           conversation_id: selectedChat?.conversation_id ?? ''
         }),
       });
       const data = await response.json();
       setResponse(JSON.stringify(data, null, 2)); // 格式化 JSON 输出
-      console.log(data.answer)
-      console.log(data.id)
-      console.log(data.conversation_id)
       dispatch({
         type: ActionType.UPDATE,
         field: "selectedChat",
@@ -70,7 +67,7 @@ const ChatInput = () => {
         </div>
         <TextareaAutoSize
           className='outline-none flex-1 max-h-64 mb-1.5 bg-transparent text-black dark:text-white resize-none border-0'
-          placeholder='我不是ChatGPT, 我是...'
+          placeholder='我是MedAsk AI...'
           rows={1} 
           value={messageText}
           onChange={(e) => {
