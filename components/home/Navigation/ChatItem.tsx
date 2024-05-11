@@ -5,7 +5,7 @@ import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md';
 import Cookies from 'js-cookie';
 import { useAppContext } from '@/components/AppContext';
 
-const ChatItem = ({ name, handdelete, onSelected }) => {  // Include id in props
+const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in props
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
     const [title, setTitle] = useState(name);  // Initialize with name
@@ -18,7 +18,7 @@ const ChatItem = ({ name, handdelete, onSelected }) => {  // Include id in props
 
     async function updateChat(newName) {
         console.log(selectedChat?.conversation_id)
-        const response = await fetch(`http://5a5f494e.r11.vip.cpolar.cn/v1/conversations/${selectedChat?.conversation_id}/name`, {
+        const response = await fetch(`http://5cb5a8ce.r11.vip.cpolar.cn/v1/conversations/${selectedChat?.conversation_id}/name`, {
             method: "POST",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
