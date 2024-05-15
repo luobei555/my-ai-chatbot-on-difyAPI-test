@@ -19,7 +19,7 @@ const ChatList = () => {
 
 
     async function deleteChat(id) {
-       const response = await fetch(`http://5cb5a8ce.r11.vip.cpolar.cn/v1/conversations/${id}`, {
+       const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${id}`, {
             method: "DELETE",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
@@ -34,7 +34,7 @@ const ChatList = () => {
     }
     
     async function fetchData() {
-        const response = await fetch(`http://5cb5a8ce.r11.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
+        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
             method: "GET",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
@@ -46,7 +46,7 @@ const ChatList = () => {
     }
 
     return (
-        <div className='table-1 mb-[48px] mt-2 flex flex-col overflow-y-auto'>
+        <div className='table-1 mb-[48px] mt-2 flex flex-col overflow-y-auto '>
             <ul>
                 {chats.map((chat) => (
                     <ChatItem  key={chat.id} id={chat.id} name={chat.name} handdelete={deleteChat}

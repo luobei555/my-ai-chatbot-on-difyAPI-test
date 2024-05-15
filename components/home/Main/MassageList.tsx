@@ -18,7 +18,7 @@ export default function MessageList() {
     const case_id = Cookies.get('patientId');
 
     async function getData(chatId: string) {
-        const response = await fetch(`http://5cb5a8ce.r11.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
+        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
             method: "GET",
             headers: {
                 Authorization:'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'

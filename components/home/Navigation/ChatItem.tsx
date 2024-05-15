@@ -18,7 +18,7 @@ const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in p
 
     async function updateChat(newName) {
         console.log(selectedChat?.conversation_id)
-        const response = await fetch(`http://5cb5a8ce.r11.vip.cpolar.cn/v1/conversations/${selectedChat?.conversation_id}/name`, {
+        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${selectedChat?.conversation_id}/name`, {
             method: "POST",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
