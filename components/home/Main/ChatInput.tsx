@@ -30,7 +30,7 @@ const ChatInput = () => {
           query: `${messageText}`,
           response_mode: "blocking",
           user: `${case_id}`,
-          conversation_id: selectedChat?.conversation_id ?? ''
+          conversation_id: selectedChat?.id ?? ''
         }),
       });
       const data = await response.json();
