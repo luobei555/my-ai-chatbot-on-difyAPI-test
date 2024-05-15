@@ -35,11 +35,7 @@ export default function MessageList() {
             field: "messageList",
             value: data
         })
-        dispatch({
-            type: ActionType.UPDATE,
-            field: "selectedChat",
-            value: chatId,
-        })
+
     }
 
     // 使用useEffect钩子在selectedChat变化时执行副作用

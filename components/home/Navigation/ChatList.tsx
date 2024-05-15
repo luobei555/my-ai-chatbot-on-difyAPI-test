@@ -17,8 +17,8 @@ const ChatList = () => {
     }, []);
 
 
-    async function deleteChat(id) {
-       const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${id}`, {
+    async function deleteChat(conversation_id) {
+       const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${conversation_id}`, {
             method: "DELETE",
             headers: {
                 Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
