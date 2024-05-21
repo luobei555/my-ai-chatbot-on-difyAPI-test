@@ -16,12 +16,15 @@ const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in p
         dispatch
     } = useAppContext()
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
+
     async function updateChat(newName) {
         console.log(id)
-        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${id}/name`, {
+        const response = await fetch(`${API_URL}v1/conversations/${id}/name`, {
             method: "POST",
             headers: {
-                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
+                Authorization: `Bearer ${BEARER_TOKEN}`,
                 'Content-Type': 'application/json'
             },
             body: `{"name": "${newName}","user":"${case_id}"}`

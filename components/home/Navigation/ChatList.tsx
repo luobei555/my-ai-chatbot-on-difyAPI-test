@@ -16,12 +16,14 @@ const ChatList = () => {
         fetchData();
     }, []);
 
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
     async function deleteChat(conversation_id) {
-       const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations/${conversation_id}`, {
+       const response = await fetch(`${API_URL}v1/conversations/${conversation_id}`, {
             method: "DELETE",
             headers: {
-                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
+                Authorization: `Bearer ${BEARER_TOKEN}`,
                 'Content-Type': 'application/json'
             },
             body: `{"user":"${case_id}"}`
@@ -33,10 +35,10 @@ const ChatList = () => {
     }
     
     async function fetchData() {
-        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/conversations?user=${case_id}&last_id=&limit=20`, {
+        const response = await fetch(`${API_URL}v1/conversations?user=${case_id}&last_id=&limit=20`, {
             method: "GET",
             headers: {
-                Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
+                Authorization: `Bearer ${BEARER_TOKEN}`
             }
         });
         const data = await response.json();

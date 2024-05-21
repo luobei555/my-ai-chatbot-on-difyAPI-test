@@ -16,13 +16,15 @@ const ChatInput = () => {
     state: { messageList, selectedChat },
     dispatch
   } = useAppContext()
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+  const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
   const createSession = async () => {
     try {
-      const response = await fetch("http://4ac26d39.r10.vip.cpolar.cn/v1/chat-messages", {
+      const response = await fetch(`${API_URL}v1/chat-messages`, {
         method: 'POST',
         headers: {
-          Authorization: 'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm',
+          Authorization: `Bearer ${BEARER_TOKEN}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
@@ -35,14 +37,6 @@ const ChatInput = () => {
       });
       const data = await response.json();
       setResponse(JSON.stringify(data, null, 2)); // 格式化 JSON 输出
-      dispatch({
-        type: ActionType.UPDATE,
-        field: "selectedChat",
-        value: {
-          id: data.id,
-          conversation_id: data.conversation_id,
-      }
-    });
     dispatch({
       type: ActionType.UPDATE,
       field: "messageList",
@@ -51,6 +45,14 @@ const ChatInput = () => {
         answer: data.answer
       }]
     });
+    dispatch({
+      type: ActionType.UPDATE,
+      field: "selectedChat",
+      value: {
+        id: data.id,
+        conversation_id: data.conversation_id,
+    }
+  });
     setMessageText(''); // 清空文本区域内容
     } catch (error) {
       setResponse('Error: ' + error.message);
@@ -78,6 +80,9 @@ const ChatInput = () => {
             icon={FiSend}
             onClick={createSession}
           />
+        </div>
+        <div className="text-sm text-gray-500 mx-3">
+          您的咨询由MedAsk AI回复，关于您的重要医疗决策请结合咨询专业医生。
         </div>
         <div style={{ height: '50px' }} />
       </div>

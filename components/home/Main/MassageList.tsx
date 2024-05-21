@@ -16,12 +16,14 @@ export default function MessageList() {
     } = useAppContext()
 
     const case_id = Cookies.get('patientId');
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
     async function getData(chatId: string) {
-        const response = await fetch(`http://4ac26d39.r10.vip.cpolar.cn/v1/messages?user=${case_id}&conversation_id=${chatId}`, {
+        const response = await fetch(`${API_URL}v1/messages?user=${case_id}&conversation_id=${chatId}`, {
             method: "GET",
             headers: {
-                Authorization:'Bearer app-1JYGQEIQAmmH5Gg6Uo5MOUvm'
+                Authorization: `Bearer ${BEARER_TOKEN}`
             }
         })
         if (!response.ok) {
