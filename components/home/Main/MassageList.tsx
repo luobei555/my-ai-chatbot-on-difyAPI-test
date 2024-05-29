@@ -37,7 +37,6 @@ export default function MessageList() {
             field: "messageList",
             value: data
         })
-
     }
 
     // 使用useEffect钩子在selectedChat变化时执行副作用
@@ -60,7 +59,7 @@ export default function MessageList() {
             <ul>
                 {messageList.map((message) => {
                     return (
-                        <li key={message.id} >
+                        <li key={selectedChat?.id} >
                             <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-4 text-lg'>
                                 <div className='flex-1 space-y-4 text-right'>
                                     <Markdown>{`${message.query}`}</Markdown>

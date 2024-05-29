@@ -11,15 +11,15 @@ const ChatList = () => {
         dispatch
     } = useAppContext()
 
-
     useEffect(() => {
         fetchData();
-    }, []);
+        console.log(selectedChat)
+    }, [selectedChat]);
 
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
-    async function deleteChat(conversation_id) {
+    /*async function deleteChat(conversation_id) {
        const response = await fetch(`${API_URL}v1/conversations/${conversation_id}`, {
             method: "DELETE",
             headers: {
@@ -32,7 +32,7 @@ const ChatList = () => {
             console.log("ok")
             fetchData();
         }
-    }
+    }*/
     
     async function fetchData() {
         const response = await fetch(`${API_URL}v1/conversations?user=${case_id}&last_id=&limit=20`, {
@@ -50,7 +50,7 @@ const ChatList = () => {
         <div className='table-1 mb-[48px] mt-2 flex flex-col overflow-y-auto '>
             <ul>
                 {chats.map((chat) => (
-                    <ChatItem  key={chat.id} id={chat.id} name={chat.name} handdelete={deleteChat}
+                    <ChatItem  key={chat.id} id={chat.id} name={chat.name}
                     onSelected={() => {
                         return dispatch({
                             type: ActionType.UPDATE,

@@ -3,12 +3,14 @@ import { AiOutlineEdit } from 'react-icons/ai';
 import { PiTrashBold, PiChatBold } from 'react-icons/pi';
 import { MdCheck, MdClose, MdDeleteOutline } from 'react-icons/md';
 import Cookies from 'js-cookie';
+import { ActionType } from '@/reducers/AppReducer'
+
 import { useAppContext } from '@/components/AppContext';
 
-const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in props
+const ChatItem = ({ id, name, onSelected }) => {  // Include id in props
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false);
-    const [title, setTitle] = useState(name);  // Initialize with name
+    const [title, setTitle] = useState(name);  // Initialize with names
     const case_id = Cookies.get('patientId');
 
     const {
@@ -20,7 +22,6 @@ const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in p
     const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
 
     async function updateChat(newName) {
-        console.log(id)
         const response = await fetch(`${API_URL}v1/conversations/${id}/name`, {
             method: "POST",
             headers: {
@@ -30,6 +31,32 @@ const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in p
             body: `{"name": "${newName}","user":"${case_id}"}`
         });
         if (response.ok) {
+            dispatch({
+                type: ActionType.UPDATE,
+                field: "selectedChat",
+                value: {
+                    name: newName,
+                }
+            })
+            console.log(newName);
+        }
+    }
+
+    async function deleteChat(id) {
+        const response = await fetch(`${API_URL}v1/conversations/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${BEARER_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: `{"user":"${case_id}"}`
+        });
+        if (response.ok) {
+            dispatch({
+                type: ActionType.UPDATE,
+                field: "selectedChat",
+                value: ""
+            })
             console.log("ok");
         }
     }
@@ -58,7 +85,7 @@ const ChatItem = ({ id, name, handdelete, onSelected }) => {  // Include id in p
                         <button
                             onClick={(e) => {
                                 if (deleting) {
-                                    handdelete(id);
+                                    deleteChat(id);
                                 } else {
                                     updateChat(title);
                                 }

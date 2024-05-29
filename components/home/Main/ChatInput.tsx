@@ -49,8 +49,8 @@ const ChatInput = () => {
       type: ActionType.UPDATE,
       field: "selectedChat",
       value: {
-        id: data.id,
-        conversation_id: data.conversation_id,
+        name: "New conversation",
+        id: data.conversation_id,
     }
   });
     setMessageText(''); // 清空文本区域内容
