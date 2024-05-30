@@ -18,6 +18,11 @@ export default function Menubar() {
                         field: "selectedChat",
                         value: null
                     })
+                    dispatch({
+                        type: ActionType.UPDATE,
+                        field: "messageList",
+                        value: []
+                    })
                 }}
             >
                 新建对话

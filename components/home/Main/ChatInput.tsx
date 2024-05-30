@@ -1,7 +1,7 @@
 import { useAppContext } from '@/components/AppContext'
 import Button from '@/components/common/Button'
 import { Action, ActionType } from '@/reducers/AppReducer'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { FiSend } from 'react-icons/fi'
 import { MdRefresh } from 'react-icons/md'
 import { PiLightningFill, PiStopBold } from 'react-icons/pi'
@@ -9,6 +9,8 @@ import TextareaAutoSize from "react-textarea-autosize"
 import Cookies from 'js-cookie';
 
 const ChatInput = () => {
+  
+  const firstexe = useRef(false)
   const case_id = Cookies.get('patientId');
   const [messageText, setMessageText] = useState("");
   const [messageQueue, setMessageQueue] = useState([]);
@@ -18,7 +20,7 @@ const ChatInput = () => {
   } = useAppContext();
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const BEARER_TOKEN = process.env.NEXT_PUBLIC_BEARER_TOKEN;
-
+  
   useEffect(() => {
     return () => {
       if (streamReader) {
@@ -48,16 +50,24 @@ const ChatInput = () => {
       const stream = response.body;
 
       // 创建一个新的 ReadableStream 对象
-      streamReader = stream.getReader();
+      streamReader = stream!.getReader();
 
       // 开始读取流
+      let currentResponseMessage = ''
       while (true) {
         const { done, value } = await streamReader.read();
         //console.log('Raw stream value:', new TextDecoder().decode(value));
         if (done) break;
         const text = new TextDecoder().decode(value);
         const jsonStr = text.replace(/^data: /, '');
-        handleStreamMessage(JSON.parse(jsonStr));
+        // console.log(text, 'text')
+        const strobj = JSON.parse(jsonStr)
+        // console.log(strobj, 'strobj')
+        currentResponseMessage += strobj.answer ?? ''
+        console.log(currentResponseMessage, 'currentResponseMessage')
+
+
+        handleStreamMessage({ ...strobj, answer: currentResponseMessage });
       }
     } catch (error) {
       console.error('Error starting session:', error);
@@ -65,26 +75,34 @@ const ChatInput = () => {
     setMessageText(''); // 清空文本区域内容
   };
 
+  
   const handleStreamMessage = (data) => {
+    //console.log( selectedChat?.id, data.conversation_id)
+      if(!firstexe.current &&  data.conversation_id) {
+        firstexe.current = true
+        dispatch({
+          type: ActionType.UPDATE,
+          field: "selectedChat",
+          value: {
+              name: "New conversation",
+              id: data.conversation_id,
+          }
+        })
+      }
     if (data.event === 'message') {
+      // console.log(data.answer, 'data.answer')
       dispatch({
         type: ActionType.UPDATE,
         field: "messageList",
         value: [...messageList, {
+          query: messageText,
           answer: data.answer
         }]
       });
     } else if (data.event === 'message_end') {
-      console.log('Stream ended');
+      // console.log('Stream ended');
       streamReader.cancel();  // 取消流
-      dispatch({
-        type: ActionType.UPDATE,
-        field: "selectedChat",
-        value: {
-            name: "New conversation",
-            id: data.conversation_id,
-        }
-      })
+      firstexe.current = false
     }
   };
 

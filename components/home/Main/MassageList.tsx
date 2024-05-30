@@ -9,7 +9,6 @@ import { faUserCircle } from '@fortawesome/free-regular-svg-icons'
 import Cookies from 'js-cookie';
 
 export default function MessageList() {
-    //  使用 useAppContext 钩子从全局状态中获取 messageList, streamingId, selectedChat 和 dispatch函数
     const {
         state: { messageList, selectedChat },
         dispatch
@@ -31,7 +30,6 @@ export default function MessageList() {
             return
         }
         const { data } = await response.json()
-        //  通过dispatch函数更新全局状态中的messageList
         dispatch({
             type: ActionType.UPDATE,
             field: "messageList",
@@ -39,13 +37,10 @@ export default function MessageList() {
         })
     }
 
-    // 使用useEffect钩子在selectedChat变化时执行副作用
     useEffect(() => {
         if (selectedChat) {
-            // 如果已选择聊天，则获取该聊天的消息列表
             getData(selectedChat.id)
         } else {
-            // 如果没有选择聊天，则将messageList重置为空数组
             dispatch({
                 type: ActionType.UPDATE,
                 field: "messageList",
