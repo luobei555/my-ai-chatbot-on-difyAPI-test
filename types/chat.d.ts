@@ -1,6 +1,7 @@
 export interface Chat {
     id: string
     name: string
+    historyID: string
 }
 
 export interface Message {

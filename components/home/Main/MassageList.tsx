@@ -59,7 +59,7 @@ export default function MessageList() {
             <ul>
                 {messageList.map((message) => {
                     return (
-                        <li key={selectedChat?.id} >
+                        <li key={selectedChat?.historyID} >
                             <div className='w-full max-w-4xl mx-auto flex space-x-6 px-4 py-4 text-lg'>
                                 <div className='flex-1 space-y-4 text-right'>
                                     <Markdown>{`${message.query}`}</Markdown>
